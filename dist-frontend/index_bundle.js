@@ -29868,7 +29868,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var App = function () {
-    react__WEBPACK_IMPORTED_MODULE_0__["useEffect"](function () { });
     var obj = {
         count: 0,
         increment: function () {

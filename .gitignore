@@ -1,4 +1,5 @@
 /node_modules
 /dist/index_bundle*
 /dist-backend/
+/dist-frontend/
 /mongo
