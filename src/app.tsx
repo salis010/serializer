@@ -29,6 +29,10 @@ export const App: React.FunctionComponent = () => {
             <h1>Serializer</h1>
             <button onClick={handleClick}>Send</button>
             <h2>Count: {counter.count}</h2>
+            <p>
+                (Note: Watch the counter increment in the terminal where node is
+                running too)
+            </p>
         </>
     )
 }

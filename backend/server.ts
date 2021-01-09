@@ -20,7 +20,6 @@ app.post('/message', (req, res) => {
 	res.send(serialize(counter))
 })
 
-
 app.listen(3000, function () {
 	console.log(`Listening on port ${port}...`)
 })
