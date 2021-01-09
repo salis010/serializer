@@ -1,4 +1,4 @@
 export interface ICounter {
     count: number
-	increment(): number
+	increment(): void
 }

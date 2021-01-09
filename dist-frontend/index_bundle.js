@@ -86,6 +86,39 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./common/utils.ts":
+/*!*************************!*\
+  !*** ./common/utils.ts ***!
+  \*************************/
+/*! exports provided: serialize, deserialize */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "serialize", function() { return serialize; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deserialize", function() { return deserialize; });
+var serialize = function (counter) {
+    var replacer = function (key, value) {
+        if (typeof value === 'function')
+            return value.toString();
+        return value;
+    };
+    return JSON.stringify(counter, replacer);
+};
+var deserialize = function (str) {
+    var reviver = function (key, value) {
+        if (/function/.test(value)) {
+            var functionString = "(" + value + ")";
+            return eval(functionString);
+        }
+        return value;
+    };
+    return JSON.parse(str, reviver);
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/object-assign/index.js":
 /*!*********************************************!*\
   !*** ./node_modules/object-assign/index.js ***!
@@ -29831,9 +29864,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "App", function() { return App; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _common_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/utils */ "./common/utils.ts");
+
 
 var App = function () {
-    return react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("h1", null, "Hello");
+    react__WEBPACK_IMPORTED_MODULE_0__["useEffect"](function () { });
+    var obj = {
+        count: 0,
+        increment: function () {
+            this.count++;
+        },
+    };
+    var _a = react__WEBPACK_IMPORTED_MODULE_0__["useState"](obj), counter = _a[0], setCounter = _a[1];
+    var handleClick = function () {
+        counter.increment();
+        var params = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: Object(_common_utils__WEBPACK_IMPORTED_MODULE_1__["serialize"])(counter),
+        };
+        fetch("/message", params)
+            .then(function (response) { return response.json(); })
+            .then(function (data) { return setCounter(Object(_common_utils__WEBPACK_IMPORTED_MODULE_1__["deserialize"])(JSON.stringify(data))); });
+    };
+    return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"](react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null,
+        react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("h1", null, "Serializer"),
+        react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("button", { onClick: handleClick }, "Send"),
+        react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("h2", null,
+            "Count: ",
+            counter.count)));
 };
 
 
